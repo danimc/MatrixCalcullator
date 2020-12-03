@@ -32,6 +32,13 @@ class server {
 
             int opcion = in.readInt();
             System.out.println("Opcion elegida: " + opcion);
+            switch(opcion){
+                case 1: 
+                int a = in.readInt();
+                System.out.println("Renglones de la matriz: " + a);
+                break;
+
+            }
 
             /*
              * int size = 0; int n; size = in.readInt(); int vector[] = new int[size];

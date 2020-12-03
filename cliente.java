@@ -26,7 +26,7 @@ public class cliente {
 					switch (opcion) {
 						case 1:
 							float m1[][]; 
-							FormulariosCliente.DatosMultMatrix();
+							FormulariosCliente.DatosMultMatrix(s.os);
 							break;
 						case 2:
 

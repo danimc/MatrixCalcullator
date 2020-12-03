@@ -1,37 +1,49 @@
 package dist.opMatrix;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FormulariosCliente {
     static Scanner reader = new Scanner(System.in);
 
-    public static void DatosMultMatrix() {
+    public static void DatosMultMatrix(DataOutputStream out) {
         int a, b, c, respuesta = 0;
-        int[][] matriz1;
+        float[][] matriz1;
         // int[][] matriz2;
-        int[][] resultado;
+        float[][] resultado;
 
-        System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'A'");
-        a = reader.nextInt();
-        System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'A'");
-        b = reader.nextInt();
-        System.out.println("MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
-        boolean repetir = true;
-        while (repetir) {
-            try {
-                System.out.println("Desea multiplicar la matriz 'A' \n con 1.- otra matriz \n 2.- un vector");
-                respuesta = reader.nextInt();
-                if (respuesta == 1 || respuesta == 2) {
-                    repetir = false;
-                } else {
-                    throw opcionExeption();
+        try{
+            System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'A'");
+            a = reader.nextInt();
+            out.writeInt(a);
+            System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'A'");
+            b = reader.nextInt();
+            System.out.println("MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            matriz1 = new float[a][b];
+            boolean repetir = true;
+            while (repetir) {
+                try {
+                    System.out.println("Desea multiplicar la matriz 'A' \n con 1.- otra matriz \n 2.- un vector");
+                    respuesta = reader.nextInt();
+                    if (respuesta == 1 || respuesta == 2) {
+                        repetir = false;
+                    } else {
+                        throw opcionExeption();
+                    }
+    
+                } catch (Exception e) {
+                    System.err.println("Intente de nuevo");
                 }
-
-            } catch (Exception e) {
-                System.err.println("Intente de nuevo");
+    
             }
 
+
+        }catch (IOException e){
+            System.err.println("error de dato");
         }
+
+   
 
         if( respuesta == 1 ){
             
