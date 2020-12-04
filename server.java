@@ -11,6 +11,7 @@ class server {
     DataOutputStream out;
     DataInputStream in;
     int message;
+    int resp;
 
     operaciones op = new operaciones();
 
@@ -32,12 +33,10 @@ class server {
 
             int opcion = in.readInt();
             System.out.println("Opcion elegida: " + opcion);
-            switch(opcion){
-                case 1: 
-                int a = in.readInt();
-                System.out.println("Renglones de la matriz: " + a);
-                break;
-
+            switch (opcion) {
+                case 1:
+                    datosMatrix();
+                    break;
             }
 
             /*
@@ -65,6 +64,60 @@ class server {
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
         }
+    }
+
+    public void datosMatrix() {
+        try {
+
+            int a = in.readInt();
+            System.out.println("Columnas de la matriz 'A': " + a);
+            int b = in.readInt();
+            System.out.println("Renglones de la matriz 'A': " + b);
+            float[][] matrixA = new float[a][b];
+
+            System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            //out.writeByte('\n');
+            out.flush();
+            boolean repetir = true;
+
+            do {
+                try {
+                    out.writeUTF("> Desea multiplicar la matriz 'A' con \n 1.- otra matriz \n 2.- un vector");
+                   // out.writeByte('\n');
+                    out.flush();
+
+                    resp = in.readInt();
+                    if (resp == 1 || resp == 2) {
+                        repetir = false;
+                        System.out.println("bucle: " + repetir);
+                        System.out.println("> opcion CORRECTA");
+                        out.writeUTF("> opcion CORRECTA");
+                        out.flush();
+                       
+                    } else {
+                        System.out.println("bucle: " + repetir);
+                        System.out.println("> opcion incorrecta");
+                        out.writeUTF("> opcion incorrecta");
+                       // out.writeByte('\n');
+                        out.flush();
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.err.println("Intente de nuevo");
+                }
+            } while (repetir);
+
+            System.out.println("USUARIO SELECCIONO: "+ resp);
+            out.writeUTF("selecciono la opcion " + resp);
+
+        } catch (IOException e) {
+            System.out.println("Accept failed al ingresar datos: 5000");
+            System.exit(-1);
+        } catch (InputMismatchException e) {
+            System.out.println("Error: no es un numero");
+        }
+
     }
 
     protected void finalize() {

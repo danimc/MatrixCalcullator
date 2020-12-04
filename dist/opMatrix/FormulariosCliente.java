@@ -1,52 +1,58 @@
 package dist.opMatrix;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class FormulariosCliente {
     static Scanner reader = new Scanner(System.in);
 
-    public static void DatosMultMatrix(DataOutputStream out) {
+    public static void DatosMultMatrix(DataOutputStream out, DataInputStream in) {
         int a, b, c, respuesta = 0;
         float[][] matriz1;
         // int[][] matriz2;
         float[][] resultado;
 
-        try{
+        try {
             System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'A'");
             a = reader.nextInt();
             out.writeInt(a);
             System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'A'");
             b = reader.nextInt();
-            System.out.println("MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
-            matriz1 = new float[a][b];
-            boolean repetir = true;
-            while (repetir) {
+            out.writeInt(b);
+
+            System.out.println(in.readUTF());
+            System.out.println("\n");
+
+            boolean bucle = true;
+
+            do {
                 try {
-                    System.out.println("Desea multiplicar la matriz 'A' \n con 1.- otra matriz \n 2.- un vector");
+                    System.out.println(in.readUTF());
                     respuesta = reader.nextInt();
-                    if (respuesta == 1 || respuesta == 2) {
-                        repetir = false;
-                    } else {
-                        throw opcionExeption();
-                    }
-    
-                } catch (Exception e) {
-                    System.err.println("Intente de nuevo");
+                    out.writeInt(respuesta);
+                  //  int d = in.readByte();
+                   // System.out.println("valor: "+ d);
+                    
+                    //bucle = in.readBoolean();
+                   // System.out.println(bucle);
+                    //System.out.println(bucle);
+                    System.out.println(in.readUTF());
+                } catch (InputMismatchException e) {
+                    System.err.println("o");
                 }
-    
-            }
 
+                System.out.println("valor del bucle = "+ bucle);
+            } while (bucle);
 
-        }catch (IOException e){
-            System.err.println("error de dato");
-        }
+            System.out.println("opcion seleccionada correctamente");
+            System.out.println(in.readUTF());
+            // matriz1 = new float[a][b];
 
-   
-
-        if( respuesta == 1 ){
-            
+        } catch (IOException e) {
+            System.err.println("comunicacion interrumpida con el servidor");
         }
 
         /*
@@ -69,11 +75,6 @@ public class FormulariosCliente {
          * System.out.println("X"); imprimeMatrix(matriz2);
          * System.out.println("ES IGUAL A: "); imprimeMatrix(resultado);
          */
-    }
-
-    private static Exception opcionExeption() {
-        System.err.println("\n OPCION NO VALIDA \n");
-        return null;
     }
 
 }
