@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.InputMismatchException;
 
-import dist.opMatrix.operaciones;
+import dist.herramientas.operaciones;
 
 class server {
 
@@ -17,6 +17,9 @@ class server {
 
     float[][] matrixA;
     float[][] matrixB;
+    float[] vecto1;
+    float[][] Mresultado;
+    float[] Vresultado;
 
     public void conexion() {
         try {
@@ -32,7 +35,6 @@ class server {
     }
 
     public void listenSocket() {
-        ;
         try {
 
             int opcion = in.readInt();
@@ -67,27 +69,20 @@ class server {
             System.exit(-1);
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void datosMatrix() {
         try {
-            /*
-             * int a = in.readInt(); System.out.println("Columnas de la matriz 'A': " + a);
-             * int b = in.readInt(); System.out.println("Renglones de la matriz 'A': " + b);
-             * matrixA = new float[a][b];
-             * 
-             * System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
-             * out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b
-             * + "]"); //out.writeByte('\n'); out.flush();
-             */
-
             definir_TamMatrix();
+            ingresaDatos(matrixA);
+            op.imprimeMatrix(matrixA);
             boolean repetir = true;
             do {
                 try {
                     out.writeUTF("> Desea multiplicar la matriz 'A' con \n 1.- otra matriz \n 2.- un vector");
-                    // out.writeByte('\n');
                     out.flush();
 
                     resp = in.readInt();
@@ -119,7 +114,14 @@ class server {
             out.flush();
 
             if (resp == 1) {
-                definir_TamMatrix(renglones);
+                try {
+                    definir_TamMatrix(renglones);
+                    Mresultado = new float[matrixA.length][matrixB[0].length];
+                    System.out.println("\n\n >MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
+                } catch (Exception e) {
+                    System.err.println("Error de tamaños");
+                    e.printStackTrace();
+                }
             }
 
         } catch (IOException e) {
@@ -129,6 +131,21 @@ class server {
             System.out.println("Error: no es un numero");
         }
 
+    }
+
+    private void ingresaDatos(float[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int k = 0; k < matriz[0].length; k++) {
+                try {
+                    matriz[i][k] = in.readFloat();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InputMismatchException e) {
+                    System.out.println("no es un numero valido");
+                }
+
+            }
+        }
     }
 
     public void definir_TamMatrix() {
@@ -142,7 +159,6 @@ class server {
             System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
             out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
             renglones = b;
-            // out.writeByte('\n');
             out.flush();
         } catch (IOException e) {
 
@@ -150,19 +166,29 @@ class server {
 
     }
 
-    public void definir_TamMatrix(int renglones) {
+    public void definir_TamMatrix(int renglones) throws Exception {
         try {
             int a = in.readInt();
             System.out.println("Columnas de la matriz 'B': " + a);
             int b = in.readInt();
             System.out.println("Renglones de la matriz 'B': " + b);
-            matrixB = new float[a][b];
-            System.out.println("\n\n >MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
-            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
-            // out.writeByte('\n');
-            out.flush();
-        } catch (IOException e) {
 
+            if (a == renglones) {
+                matrixB = new float[a][b];
+                System.out.println("\n\n >MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
+                out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
+                out.flush();
+
+            } else {
+                definir_TamMatrix(renglones);
+                throw new Exception("Los tamaños no son compatibles");
+
+            }
+        } catch (IOException e) {
+            System.err.println("errorsito");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("problema con el tamaño de la matriz");
         }
 
     }

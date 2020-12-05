@@ -1,8 +1,9 @@
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import dist.opMatrix.FormulariosCliente;
+
 import dist.socketCliente;
+import dist.herramientas.FormulariosCliente;
 
 public class cliente {
 	Scanner stdIn = new Scanner(System.in);	
@@ -15,6 +16,7 @@ public class cliente {
 		do {
 			socketCliente s = new socketCliente();
 			s.conexionClient();
+			FormulariosCliente form = new FormulariosCliente();
 
 			if (s.echoSocket != null && s.os != null && s.is != null) {
 				try {
@@ -25,7 +27,7 @@ public class cliente {
 
 					switch (opcion) {
 						case 1:
-							FormulariosCliente.DatosMultMatrix(s.os, s.is);
+							form.DatosMultMatrix();
 							break;
 						case 2:
 

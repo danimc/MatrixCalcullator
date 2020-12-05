@@ -1,16 +1,20 @@
-package dist.opMatrix;
+package dist.herramientas;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import dist.socketCliente;
 
 public class FormulariosCliente {
     static Scanner reader = new Scanner(System.in);
+    DataOutputStream out = socketCliente.salida;
+    DataInputStream in = socketCliente.entrada;
+    float[][] matrixA;
+    float[][] matrixB;
 
-    public static void DatosMultMatrix(DataOutputStream out, DataInputStream in) {
+    public  void DatosMultMatrix() {
         int a, b, c, respuesta = 0, srvResp;
 
         try {
@@ -20,9 +24,9 @@ public class FormulariosCliente {
             System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'A'");
             b = reader.nextInt();
             out.writeInt(b);
-
             System.out.println(in.readUTF());
             System.out.println("\n");
+            mandarvaloresMatrix(a, b);
             boolean bucle = true;
             do {
                 try {
@@ -31,7 +35,7 @@ public class FormulariosCliente {
                     out.writeInt(respuesta);
                     System.out.println(in.readUTF());
                     srvResp = in.readInt();
-                    if(srvResp == 1){
+                    if (srvResp == 1) {
                         bucle = false;
                     }
 
@@ -42,14 +46,14 @@ public class FormulariosCliente {
             // FIN DEL BUCLE PARA SELECCIONAR MATRIZ O VECTOR
             System.out.println(in.readUTF());
             srvResp = in.readInt();
-            if(srvResp == 1){
+            if (srvResp == 1) {
                 System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'B'");
                 a = reader.nextInt();
                 out.writeInt(a);
                 System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'B'");
                 b = reader.nextInt();
                 out.writeInt(b);
-            }          
+            }
 
         } catch (IOException e) {
             System.err.println("comunicacion interrumpida con el servidor");
@@ -75,6 +79,25 @@ public class FormulariosCliente {
          * System.out.println("X"); imprimeMatrix(matriz2);
          * System.out.println("ES IGUAL A: "); imprimeMatrix(resultado);
          */
+    }
+
+    public void mandarvaloresMatrix(int a, int b) {
+        float userInput;
+        for (int i = 0; i < a; i++) {
+            for (int k = 0; k < b; k++) {
+                try {
+                    System.out.println("ingresa el valor " + i);
+                    userInput = reader.nextFloat();
+                    out.writeFloat(userInput);
+                     
+                }catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InputMismatchException e) {
+                    System.out.println("no es un numero valido");
+                }
+
+            }
+        }
     }
 
 }
