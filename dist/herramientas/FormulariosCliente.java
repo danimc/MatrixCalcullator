@@ -15,7 +15,7 @@ public class FormulariosCliente {
     float[][] matrixB;
 
     public  void DatosMultMatrix() {
-        int a, b, c, respuesta = 0, srvResp;
+        int a, b, respuesta = 0, srvResp;
 
         try {
             System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'A'");
@@ -47,12 +47,8 @@ public class FormulariosCliente {
             System.out.println(in.readUTF());
             srvResp = in.readInt();
             if (srvResp == 1) {
-                System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'B'");
-                a = reader.nextInt();
-                out.writeInt(a);
-                System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'B'");
-                b = reader.nextInt();
-                out.writeInt(b);
+                mandarTamMatrix();
+
             }
 
         } catch (IOException e) {
@@ -79,6 +75,21 @@ public class FormulariosCliente {
          * System.out.println("X"); imprimeMatrix(matriz2);
          * System.out.println("ES IGUAL A: "); imprimeMatrix(resultado);
          */
+    }
+
+    private void mandarTamMatrix() throws IOException {
+        int a,b;
+        System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'B'");
+        a = reader.nextInt();
+        out.writeInt(a);
+        System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'B'");
+        b = reader.nextInt();
+        out.writeInt(b);
+        System.out.println(in.readUTF());
+        System.out.println("\n");
+
+        mandarvaloresMatrix(a, b);
+
     }
 
     public void mandarvaloresMatrix(int a, int b) {

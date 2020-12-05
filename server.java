@@ -69,8 +69,6 @@ class server {
             System.exit(-1);
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -117,7 +115,12 @@ class server {
                 try {
                     definir_TamMatrix(renglones);
                     Mresultado = new float[matrixA.length][matrixB[0].length];
-                    System.out.println("\n\n >MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
+                    ingresaDatos(matrixB);
+                    op.imprimeMatrix(matrixB);
+
+                    System.out.println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
+                    op.multiply(matrixA, matrixB, Mresultado);
+                    op.imprimeMatrix(Mresultado);
                 } catch (Exception e) {
                     System.err.println("Error de tamaños");
                     e.printStackTrace();
@@ -180,7 +183,7 @@ class server {
                 out.flush();
 
             } else {
-                definir_TamMatrix(renglones);
+               // definir_TamMatrix(renglones);
                 throw new Exception("Los tamaños no son compatibles");
 
             }
