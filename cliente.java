@@ -8,7 +8,7 @@ public class cliente {
 	Scanner stdIn = new Scanner(System.in);	
 	// FormulariosCliente form = new FormulariosCliente();
 	
-
+ 
 	public static void main(String[] args) {
 		int opcion;
 		System.out.println("BIENVENIDO AL CLIENTE DE LA CALCULADORA CON MATRICES Y VECTORES ");
@@ -25,7 +25,6 @@ public class cliente {
 
 					switch (opcion) {
 						case 1:
-							float m1[][]; 
 							FormulariosCliente.DatosMultMatrix(s.os, s.is);
 							break;
 						case 2:

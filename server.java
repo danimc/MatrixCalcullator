@@ -6,14 +6,17 @@ import dist.opMatrix.operaciones;
 
 class server {
 
+    operaciones op = new operaciones();
     ServerSocket server;
     Socket ns;
     DataOutputStream out;
     DataInputStream in;
     int message;
     int resp;
+    int renglones;
 
-    operaciones op = new operaciones();
+    float[][] matrixA;
+    float[][] matrixB;
 
     public void conexion() {
         try {
@@ -29,6 +32,7 @@ class server {
     }
 
     public void listenSocket() {
+        ;
         try {
 
             int opcion = in.readInt();
@@ -68,38 +72,38 @@ class server {
 
     public void datosMatrix() {
         try {
+            /*
+             * int a = in.readInt(); System.out.println("Columnas de la matriz 'A': " + a);
+             * int b = in.readInt(); System.out.println("Renglones de la matriz 'A': " + b);
+             * matrixA = new float[a][b];
+             * 
+             * System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+             * out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b
+             * + "]"); //out.writeByte('\n'); out.flush();
+             */
 
-            int a = in.readInt();
-            System.out.println("Columnas de la matriz 'A': " + a);
-            int b = in.readInt();
-            System.out.println("Renglones de la matriz 'A': " + b);
-            float[][] matrixA = new float[a][b];
-
-            System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
-            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
-            //out.writeByte('\n');
-            out.flush();
+            definir_TamMatrix();
             boolean repetir = true;
-
             do {
                 try {
                     out.writeUTF("> Desea multiplicar la matriz 'A' con \n 1.- otra matriz \n 2.- un vector");
-                   // out.writeByte('\n');
+                    // out.writeByte('\n');
                     out.flush();
 
                     resp = in.readInt();
                     if (resp == 1 || resp == 2) {
                         repetir = false;
-                        System.out.println("bucle: " + repetir);
                         System.out.println("> opcion CORRECTA");
                         out.writeUTF("> opcion CORRECTA");
                         out.flush();
-                       
+                        out.writeInt(1);
+                        out.flush();
+
                     } else {
-                        System.out.println("bucle: " + repetir);
                         System.out.println("> opcion incorrecta");
                         out.writeUTF("> opcion incorrecta");
-                       // out.writeByte('\n');
+                        out.flush();
+                        out.writeInt(0);
                         out.flush();
                     }
 
@@ -108,14 +112,57 @@ class server {
                 }
             } while (repetir);
 
-            System.out.println("USUARIO SELECCIONO: "+ resp);
-            out.writeUTF("selecciono la opcion " + resp);
+            System.out.println("USUARIO SELECCIONO: " + resp);
+            out.writeUTF("> selecciono la opcion " + resp);
+            out.flush();
+            out.writeInt(resp);
+            out.flush();
+
+            if (resp == 1) {
+                definir_TamMatrix(renglones);
+            }
 
         } catch (IOException e) {
             System.out.println("Accept failed al ingresar datos: 5000");
             System.exit(-1);
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
+        }
+
+    }
+
+    public void definir_TamMatrix() {
+        try {
+            int a = in.readInt();
+            System.out.println("Columnas de la matriz 'A': " + a);
+            int b = in.readInt();
+            System.out.println("Renglones de la matriz 'A': " + b);
+            matrixA = new float[a][b];
+
+            System.out.println("\n\n >MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            renglones = b;
+            // out.writeByte('\n');
+            out.flush();
+        } catch (IOException e) {
+
+        }
+
+    }
+
+    public void definir_TamMatrix(int renglones) {
+        try {
+            int a = in.readInt();
+            System.out.println("Columnas de la matriz 'B': " + a);
+            int b = in.readInt();
+            System.out.println("Renglones de la matriz 'B': " + b);
+            matrixB = new float[a][b];
+            System.out.println("\n\n >MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
+            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
+            // out.writeByte('\n');
+            out.flush();
+        } catch (IOException e) {
+
         }
 
     }
