@@ -43,6 +43,8 @@ class server {
                 case 1:
                     datosMatrix();
                     break;
+                case 2:
+                    suma();
             }
 
             /*
@@ -118,7 +120,8 @@ class server {
                     ingresaDatos(matrixB);
                     op.imprimeMatrix(matrixB);
 
-                    System.out.println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
+                    System.out
+                            .println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
                     out.writeInt(matrixA.length);
                     out.writeInt(matrixB[0].length);
                     op.multiply(matrixA, matrixB, Mresultado);
@@ -247,8 +250,23 @@ class server {
 
     private void enviarResult(float[] v) throws IOException {
         for (int i = 0; i < v.length; i++) {
-                out.writeFloat(v[i]);       
+            out.writeFloat(v[i]);
         }
+    }
+
+    private void suma() {
+        definir_TamMatrix();
+        matrixB = new float[matrixA.length][matrixA[0].length];
+        Mresultado = new float[matrixA.length][matrixA[0].length];
+        ingresaDatos(matrixA);
+        op.imprimeMatrix(matrixA);
+        System.out.println("valores de la segunda matrix");
+        ingresaDatos(matrixB);
+        op.imprimeMatrix(matrixB);
+        op.addition(matrixA, matrixB, Mresultado);
+        System.out.println("resultado de la suma");
+        op.imprimeMatrix(Mresultado);
+
     }
 
     protected void finalize() {

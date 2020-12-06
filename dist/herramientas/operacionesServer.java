@@ -37,9 +37,15 @@ public class operacionesServer implements Imatrix {
 
 	}
 
-	@Override
-	public void addition(float[][] a, float[][] b, float[][] r) {
 
+	public void addition(float[][] a, float[][] b, float[][] r) {
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < b[0].length; j++) {
+
+					r[i][j] =  a[i][j] + b[i][j];
+				
+			}
+		}
 	}
 
 	@Override

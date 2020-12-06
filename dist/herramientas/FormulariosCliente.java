@@ -15,6 +15,7 @@ public class FormulariosCliente {
     float[][] matrixB;
     float[][] mresult;
     float[] vResult;
+    int a, b;
 
     public void DatosMultMatrix() {
         int respuesta = 0, srvResp;
@@ -95,7 +96,7 @@ public class FormulariosCliente {
         mandarValoresVector(a);
     }
     private void mandarTamMatrix(String nombre) throws IOException {
-        int a, b;
+       
         System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ '" + nombre + "'");
         a = reader.nextInt();
         out.writeInt(a);
@@ -135,5 +136,18 @@ public class FormulariosCliente {
             out.writeFloat(userInput);
         }
     }
+
+
+
+	public void DatosSumMatrix() {
+        try {
+            mandarTamMatrix("");
+            System.out.println("INGRESE LOS VALORES PARA LA SEGUNDA MATRIZ");
+            mandarValoresMatrix(a, b);  //segunda matriz
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
+	}
 
 }

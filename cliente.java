@@ -30,7 +30,7 @@ public class cliente {
 							form.DatosMultMatrix();
 							break;
 						case 2:
-
+							form.DatosSumMatrix();
 							break;
 						case 3:
 
@@ -69,8 +69,8 @@ public class cliente {
 
 	public static int mostrarMenu() {
 		Scanner reader = new Scanner(System.in);
-		System.out.println("1.- Multiplicar Matriz por Matriz");
-		System.out.println("2.- Multiplicar Matriz por Vector");
+		System.out.println("1.- Multiplicación");
+		System.out.println("2.- Suma de matrices");
 		System.out.println("3.- Suma de los numero impares");
 		System.out.println("4.- Mostrar el numero mas grande");
 		System.out.println("5.- Salir del Programa");
