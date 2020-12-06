@@ -11,7 +11,11 @@ public class impresionesCliente implements IprintMatrix {
     float[][] mResult;
 
     public void print(float[] v) {
-        // TODO Auto-generated method stub
+        System.out.print("[");
+        for (int i = 0; i < v.length; i++) {
+            System.out.print(" " + v[i] + " ");
+        }
+        System.out.println("]");
 
     }
 
@@ -67,7 +71,6 @@ public class impresionesCliente implements IprintMatrix {
             for (int i = 0; i < v.length; i++) {
                 value = in.readFloat();
                 v[i] = value;
-
             }
 
             print(v);

@@ -119,7 +119,7 @@ class server {
                     op.imprimeMatrix(matrixB);
 
                     System.out.println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
-                    out.writeInt( matrixA.length);
+                    out.writeInt(matrixA.length);
                     out.writeInt(matrixB[0].length);
                     op.multiply(matrixA, matrixB, Mresultado);
                     System.out.println("\n ENVIANDO RESULTADO:");
@@ -130,11 +130,11 @@ class server {
                     e.printStackTrace();
                 }
             }
-            if (resp == 2){
+            if (resp == 2) {
                 definir_TamVector(renglones);
-                Vresultado = new float [renglones];
+                Vresultado = new float[renglones];
                 out.writeInt(renglones);
-                ingresaDatos(Vresultado);   
+                ingresaDatos(vecto1);
                 op.multiply(matrixA, vecto1, Vresultado);
                 op.imprimeVector(Vresultado);
                 System.out.println("\n ENVIANDO RESULTADO:");
@@ -148,11 +148,11 @@ class server {
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
         } catch (Exception e) {
-            
+
             e.printStackTrace();
         }
 
-    }    
+    }
 
     private void definir_TamVector(int renglones) throws Exception {
         int a = in.readInt();
@@ -164,10 +164,9 @@ class server {
             out.flush();
 
         } else {
-           // definir_TamMatrix(renglones);
+            // definir_TamMatrix(renglones);
             throw new Exception("Los tamaños no son compatibles");
         }
-
 
     }
 
@@ -190,7 +189,7 @@ class server {
         for (int i = 0; i < v.length; i++) {
             v[i] = in.readFloat();
         }
-            
+
     }
 
     public void definir_TamMatrix() {
@@ -225,7 +224,7 @@ class server {
                 out.flush();
 
             } else {
-               // definir_TamMatrix(renglones);
+                // definir_TamMatrix(renglones);
                 throw new Exception("Los tamaños no son compatibles");
 
             }
@@ -238,6 +237,20 @@ class server {
 
     }
 
+    public void enviarResult(float m[][]) throws IOException {
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                out.writeFloat(m[i][j]);
+            }
+        }
+    }
+
+    private void enviarResult(float[] v) throws IOException {
+        for (int i = 0; i < v.length; i++) {
+                out.writeFloat(v[i]);       
+        }
+    }
+
     protected void finalize() {
         try {
             in.close();
@@ -248,23 +261,6 @@ class server {
             System.exit(-1);
         }
     }
-
-        public  void enviarResult(float m[][]) throws IOException {            
-            for (int i = 0; i < m.length; i++) {
-                for (int j = 0; j < m[0].length; j++) {   
-                        out.writeFloat(m[i][j]);  
-                }
-            }
-        }
-
-        private void enviarResult(float[] v) throws IOException {
-            for (int i = 0; i < v.length; i++) {
-                if (v[i] != 0) {
-                    out.writeFloat(v[i]);  
-                }
-            }
-        }
-
 
     public static void main(String[] args) {
         System.out.println("servidor funcionando");
