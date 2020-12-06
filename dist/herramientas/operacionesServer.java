@@ -37,21 +37,39 @@ public class operacionesServer implements Imatrix {
 
 	}
 
-
 	public void addition(float[][] a, float[][] b, float[][] r) {
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < b[0].length; j++) {
-
-					r[i][j] =  a[i][j] + b[i][j];
-				
+				r[i][j] = a[i][j] + b[i][j];
 			}
 		}
 	}
 
-	@Override
 	public boolean equal(float[][] a, float[][] b) {
+		int flag = 1;
+		boolean match = false;
 
-		return false;
+		if(a.length == b.length && a[0].length == b[0].length){
+			for (int i = 0; i < a.length; i++) {
+				for (int j = 0; j < a[0].length; j++) {
+					if (a[i][j] != b[i][j])
+						flag = 0;
+				}
+			}
+		}else{
+			flag=0;
+		}
+
+		if (flag == 1){
+			match = true;
+		}
+			
+		else{
+			match = false;
+		}
+			
+
+		return match;
 	}
 
 	@Override

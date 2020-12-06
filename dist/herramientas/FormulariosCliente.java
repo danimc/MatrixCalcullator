@@ -9,6 +9,7 @@ import dist.socketCliente;
 
 public class FormulariosCliente {
     static Scanner reader = new Scanner(System.in);
+    impresionesCliente p = new impresionesCliente();
     DataOutputStream out = socketCliente.salida;
     DataInputStream in = socketCliente.entrada;
     float[][] matrixA;
@@ -41,19 +42,18 @@ public class FormulariosCliente {
 
             System.out.println(in.readUTF());
             srvResp = in.readInt();
-            if (srvResp == 1) {  //MULT POR MATRIZ
+            if (srvResp == 1) { // MULT POR MATRIZ
                 mandarTamMatrix("B");
                 System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
                 System.out.println("Resultado:");
-                impresionesCliente p = new impresionesCliente();
                 p.tamMatrixResult(mresult);
                 System.out.println("\n");
             }
-            if (srvResp == 2) {     //MULT POR VECTOR
+            if (srvResp == 2) { // MULT POR VECTOR
                 mandarTamVector();
                 System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
                 System.out.println("Resultado:");
-                impresionesCliente p = new impresionesCliente();
+                
                 p.tamVectorResult(vResult);
                 System.out.println("\n");
             }
@@ -84,6 +84,23 @@ public class FormulariosCliente {
          */
     }
 
+    public void DatosSumMatrix() {
+        try {
+            mandarTamMatrix("");
+            System.out.println("INGRESE LOS VALORES PARA LA SEGUNDA MATRIZ");
+            mandarValoresMatrix(a, b); // segunda matriz
+            System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
+            System.out.println("Resultado:");
+            p.tamMatrixResult(mresult);
+            System.out.println("\n");
+
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     private void mandarTamVector() throws IOException {
         int a;
         System.out.println("INGRESA EL TAMAÑO DEL VECTOR");
@@ -95,8 +112,9 @@ public class FormulariosCliente {
         // suponeindo que todo salga bien
         mandarValoresVector(a);
     }
+
     private void mandarTamMatrix(String nombre) throws IOException {
-       
+
         System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ '" + nombre + "'");
         a = reader.nextInt();
         out.writeInt(a);
@@ -137,17 +155,19 @@ public class FormulariosCliente {
         }
     }
 
-
-
-	public void DatosSumMatrix() {
-        try {
-            mandarTamMatrix("");
-            System.out.println("INGRESE LOS VALORES PARA LA SEGUNDA MATRIZ");
-            mandarValoresMatrix(a, b);  //segunda matriz
-        } catch (IOException e) {
+	public void DatosIgualdad() {
+        try{
+            mandarTamMatrix("A");
+            System.out.println("segunda Matriz");
+            mandarTamMatrix("B");
+            System.out.println("\nesperando respuesta \n Servidor dice: ");
+            System.out.println(in.readUTF());           
             
-            e.printStackTrace();
+        }catch (Exception e){
+            System.err.println("problema desconocido");
         }
 	}
+
+
 
 }

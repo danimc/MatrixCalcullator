@@ -45,6 +45,10 @@ class server {
                     break;
                 case 2:
                     suma();
+                    break;
+                case 3:
+                    igualdad();
+                    break;
             }
 
             /*
@@ -72,6 +76,25 @@ class server {
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
         }
+    }
+
+    private void igualdad() {
+        try{
+
+            boolean respuesta;
+            definir_TamMatrix();
+            ingresaDatos(matrixA);
+            System.out.println("segunda matriz ");
+            definir_TamMatrixI();
+            ingresaDatos(matrixB);
+            respuesta = op.equal(matrixA, matrixB);
+            System.out.println("\n realizando comparacion...");
+            System.out.println("\nson iguales: " + respuesta);
+            out.writeUTF("> son iguales: " + respuesta);
+        }catch (IOException e){
+            System.err.println("Problema de coneccion");
+        }
+        
     }
 
     public void datosMatrix() {
@@ -120,8 +143,7 @@ class server {
                     ingresaDatos(matrixB);
                     op.imprimeMatrix(matrixB);
 
-                    System.out
-                            .println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
+                    System.out.println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
                     out.writeInt(matrixA.length);
                     out.writeInt(matrixB[0].length);
                     op.multiply(matrixA, matrixB, Mresultado);
@@ -210,7 +232,22 @@ class server {
         } catch (IOException e) {
 
         }
+    }
 
+    public void definir_TamMatrixI() {
+        try {
+            int a = in.readInt();
+            System.out.println("Columnas de la matriz 'B': " + a);
+            int b = in.readInt();
+            System.out.println("Renglones de la matriz 'B': " + b);
+            matrixB = new float[a][b];
+            System.out.println("\n\n >MATRIZ 'B' DE TAMAÑO [" + a + "][" + b + "]");
+            out.writeUTF("\n > SERVIDOR DICE: \n > MATRIZ 'A' DE TAMAÑO [" + a + "][" + b + "]");
+            renglones = b;
+            out.flush();
+        } catch (IOException e) {
+
+        }
     }
 
     public void definir_TamMatrix(int renglones) throws Exception {
@@ -255,17 +292,26 @@ class server {
     }
 
     private void suma() {
-        definir_TamMatrix();
-        matrixB = new float[matrixA.length][matrixA[0].length];
-        Mresultado = new float[matrixA.length][matrixA[0].length];
-        ingresaDatos(matrixA);
-        op.imprimeMatrix(matrixA);
-        System.out.println("valores de la segunda matrix");
-        ingresaDatos(matrixB);
-        op.imprimeMatrix(matrixB);
-        op.addition(matrixA, matrixB, Mresultado);
-        System.out.println("resultado de la suma");
-        op.imprimeMatrix(Mresultado);
+        try {
+            definir_TamMatrix();
+            matrixB = new float[matrixA.length][matrixA[0].length];
+            Mresultado = new float[matrixA.length][matrixA[0].length];
+            ingresaDatos(matrixA);
+            op.imprimeMatrix(matrixA);
+            System.out.println("valores de la segunda matrix");
+            ingresaDatos(matrixB);
+            op.imprimeMatrix(matrixB);
+            op.addition(matrixA, matrixB, Mresultado);
+            System.out.println("resultado de la suma");
+            op.imprimeMatrix(Mresultado);
+            out.writeInt(matrixA.length);
+            out.writeInt(matrixB[0].length);
+
+            enviarResult(Mresultado);
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
 
     }
 

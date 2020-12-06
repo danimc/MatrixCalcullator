@@ -33,7 +33,7 @@ public class cliente {
 							form.DatosSumMatrix();
 							break;
 						case 3:
-
+							form.DatosIgualdad();
 							break;
 						case 4:
 
