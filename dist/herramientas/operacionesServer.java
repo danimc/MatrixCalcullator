@@ -2,7 +2,7 @@ package dist.herramientas;
 
 import dist.interfaces.Imatrix;
 
-public class operaciones implements Imatrix {
+public class operacionesServer implements Imatrix {
 
 	public int greatest(int[] x) {
 		int mayor = 0;
@@ -16,7 +16,12 @@ public class operaciones implements Imatrix {
 
 	@Override
 	public void multiply(float[][] m, float[] v, float[] r) {
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[0].length; j++) {
+				r[i] = r[i] + m[i][j] * v[j];
 
+			}
+		}
 
 	}
 
@@ -35,12 +40,11 @@ public class operaciones implements Imatrix {
 	@Override
 	public void addition(float[][] a, float[][] b, float[][] r) {
 
-
 	}
 
 	@Override
 	public boolean equal(float[][] a, float[][] b) {
-	
+
 		return false;
 	}
 
@@ -52,18 +56,26 @@ public class operaciones implements Imatrix {
 
 	@Override
 	public float greatest(float[] v) {
-	
+
 		return 0;
 	}
 
 	public void imprimeMatrix(float m[][]) {
-        for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m[0].length; j++) {
-                if (m[i][j] != 0) {
-                    System.out.print("" + m[i][j] + ", ");
-                }
-            }
-            System.out.println("");
-        }
-    }
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[0].length; j++) {
+				if (m[i][j] != 0) {
+					System.out.print("" + m[i][j] + ", ");
+				}
+			}
+			System.out.println("\n");
+		}
+	}
+
+	public void imprimeVector(float[] vresultado) {
+		for (int i = 0; i < vresultado.length; i++) {
+			if (vresultado[i] != 0) {
+				System.out.print(" " + vresultado[i] + ", ");
+			}
+		}
+	}
 }

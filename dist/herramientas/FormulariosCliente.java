@@ -13,20 +13,14 @@ public class FormulariosCliente {
     DataInputStream in = socketCliente.entrada;
     float[][] matrixA;
     float[][] matrixB;
+    float[][] mresult;
+    float[] vResult;
 
-    public  void DatosMultMatrix() {
-        int a, b, respuesta = 0, srvResp;
+    public void DatosMultMatrix() {
+        int respuesta = 0, srvResp;
 
         try {
-            System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'A'");
-            a = reader.nextInt();
-            out.writeInt(a);
-            System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'A'");
-            b = reader.nextInt();
-            out.writeInt(b);
-            System.out.println(in.readUTF());
-            System.out.println("\n");
-            mandarvaloresMatrix(a, b);
+            mandarTamMatrix("A");
             boolean bucle = true;
             do {
                 try {
@@ -42,13 +36,25 @@ public class FormulariosCliente {
                 } catch (InputMismatchException e) {
                     System.err.println("o");
                 }
-            } while (bucle);
-            // FIN DEL BUCLE PARA SELECCIONAR MATRIZ O VECTOR
+            } while (bucle); // FIN DEL BUCLE PARA SELECCIONAR MATRIZ O VECTOR
+
             System.out.println(in.readUTF());
             srvResp = in.readInt();
-            if (srvResp == 1) {
-                mandarTamMatrix();
-
+            if (srvResp == 1) {  //MULT POR MATRIZ
+                mandarTamMatrix("B");
+                System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
+                System.out.println("Resultado:");
+                impresionesCliente p = new impresionesCliente();
+                p.tamMatrixResult(mresult);
+                System.out.println("\n");
+            }
+            if (srvResp == 2) {     //MULT POR VECTOR
+                mandarTamVector();
+                System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
+                System.out.println("Resultado:");
+                impresionesCliente p = new impresionesCliente();
+                p.tamVectorResult(vResult);
+                System.out.println("\n");
             }
 
         } catch (IOException e) {
@@ -77,22 +83,32 @@ public class FormulariosCliente {
          */
     }
 
-    private void mandarTamMatrix() throws IOException {
-        int a,b;
-        System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ 'B'");
+    private void mandarTamVector() throws IOException {
+        int a;
+        System.out.println("INGRESA EL TAMAÑO DEL VECTOR");
         a = reader.nextInt();
         out.writeInt(a);
-        System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ 'B'");
+        System.out.println(in.readUTF());
+        System.out.println("\n");
+
+        // suponeindo que todo salga bien
+        mandarValoresVector(a);
+    }
+    private void mandarTamMatrix(String nombre) throws IOException {
+        int a, b;
+        System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ '" + nombre + "'");
+        a = reader.nextInt();
+        out.writeInt(a);
+        System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ '" + nombre + "'");
         b = reader.nextInt();
         out.writeInt(b);
         System.out.println(in.readUTF());
         System.out.println("\n");
 
-        mandarvaloresMatrix(a, b);
-
+        mandarValoresMatrix(a, b);
     }
 
-    public void mandarvaloresMatrix(int a, int b) {
+    public void mandarValoresMatrix(int a, int b) {
         float userInput;
         for (int i = 0; i < a; i++) {
             for (int k = 0; k < b; k++) {
@@ -100,14 +116,23 @@ public class FormulariosCliente {
                     System.out.println("ingresa el valor " + i);
                     userInput = reader.nextFloat();
                     out.writeFloat(userInput);
-                     
-                }catch (IOException e) {
+
+                } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InputMismatchException e) {
                     System.out.println("no es un numero valido");
                 }
 
             }
+        }
+    }
+
+    private void mandarValoresVector(int v) throws IOException {
+        float userInput;
+        for (int i = 0; i < v; i++) {
+            System.out.println("ingresa el valor " + i);
+            userInput = reader.nextFloat();
+            out.writeFloat(userInput);
         }
     }
 
