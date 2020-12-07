@@ -53,7 +53,6 @@ public class FormulariosCliente {
                 mandarTamVector();
                 System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
                 System.out.println("Resultado:");
-                
                 p.tamVectorResult(vResult);
                 System.out.println("\n");
             }
@@ -61,27 +60,6 @@ public class FormulariosCliente {
         } catch (IOException e) {
             System.err.println("comunicacion interrumpida con el servidor");
         }
-
-        /*
-         * 
-         * System.out.println("matriz 1:"); matriz1 = new int[a][b];
-         * imprimeMatrix(matriz1);
-         * 
-         * System.out.println("COLUMNAS MATRIZ 2"); c = reader.nextInt();
-         * System.out.println("matriz 2:"); matriz2 = new int[b][c];
-         * imprimeMatrix(matriz2);
-         * 
-         * resultado = new int[a][c];
-         * System.out.println("ingrese los valores de la primera matriz;");
-         * datosMatrix(matriz1);
-         * System.out.println("ingrese los valores de la segunda matriz;");
-         * datosMatrix(matriz2);
-         * 
-         * matrixMatrix(matriz1, matriz2, resultado);
-         * System.out.println("\n \n LA MULTIPLICACION DE "); imprimeMatrix(matriz1);
-         * System.out.println("X"); imprimeMatrix(matriz2);
-         * System.out.println("ES IGUAL A: "); imprimeMatrix(resultado);
-         */
     }
 
     public void DatosSumMatrix() {
@@ -90,15 +68,60 @@ public class FormulariosCliente {
             System.out.println("INGRESE LOS VALORES PARA LA SEGUNDA MATRIZ");
             mandarValoresMatrix(a, b); // segunda matriz
             System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
-            System.out.println("Resultado:");
+            System.out.println(" Resultado:");
             p.tamMatrixResult(mresult);
             System.out.println("\n");
-
 
         } catch (IOException e) {
 
             e.printStackTrace();
         }
+    }
+
+    public void DatosIgualdad() {
+        try {
+            mandarTamMatrix("A");
+            System.out.println("segunda Matriz");
+            mandarTamMatrix("B");
+            System.out.println("\nesperando respuesta \n Servidor dice: ");
+            System.out.println(in.readUTF());
+
+        } catch (Exception e) {
+            System.err.println("problema desconocido");
+        }
+    }
+
+    public void DatosMayor() throws IOException {
+        boolean bucle = true;
+        int respuesta, srvResp;
+        do {
+            try {
+                System.out.println(in.readUTF());
+                respuesta = reader.nextInt();
+                out.writeInt(respuesta);
+                System.out.println(in.readUTF());
+                srvResp = in.readInt();
+                if (srvResp == 1) {
+                    bucle = false;
+                }
+
+            } catch (InputMismatchException e) {
+                System.err.println("o");
+            }
+        } while (bucle);
+        System.out.println(in.readUTF());
+        srvResp = in.readInt();
+        System.out.println("opcion seleccionada: " + srvResp);
+        
+        if(srvResp == 1){
+            mandarTamMatrix("big");          
+        }
+        if(srvResp ==2){
+            mandarTamVector();     
+        }
+        System.out.println("\n \n ESPERANDO RESPUESTA DEL SERVIDOR");
+        System.out.println("\n > El numero mayor es: " + in.readFloat() );
+
     }
 
     private void mandarTamVector() throws IOException {
@@ -154,20 +177,5 @@ public class FormulariosCliente {
             out.writeFloat(userInput);
         }
     }
-
-	public void DatosIgualdad() {
-        try{
-            mandarTamMatrix("A");
-            System.out.println("segunda Matriz");
-            mandarTamMatrix("B");
-            System.out.println("\nesperando respuesta \n Servidor dice: ");
-            System.out.println(in.readUTF());           
-            
-        }catch (Exception e){
-            System.err.println("problema desconocido");
-        }
-	}
-
-
 
 }

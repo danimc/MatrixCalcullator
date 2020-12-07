@@ -4,17 +4,7 @@ import dist.interfaces.Imatrix;
 
 public class operacionesServer implements Imatrix {
 
-	public int greatest(int[] x) {
-		int mayor = 0;
-		for (int i = 0; i < x.length; i++) {
-			if (x[i] > mayor) {
-				mayor = x[i];
-			}
-		}
-		return mayor;
-	}
 
-	@Override
 	public void multiply(float[][] m, float[] v, float[] r) {
 		for (int i = 0; i < m.length; i++) {
 			for (int j = 0; j < m[0].length; j++) {
@@ -25,7 +15,6 @@ public class operacionesServer implements Imatrix {
 
 	}
 
-	@Override
 	public void multiply(float[][] a, float[][] b, float[][] r) {
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < b[0].length; j++) {
@@ -49,42 +38,52 @@ public class operacionesServer implements Imatrix {
 		int flag = 1;
 		boolean match = false;
 
-		if(a.length == b.length && a[0].length == b[0].length){
+		if (a.length == b.length && a[0].length == b[0].length) {
 			for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < a[0].length; j++) {
 					if (a[i][j] != b[i][j])
 						flag = 0;
 				}
 			}
-		}else{
-			flag=0;
+		} else {
+			flag = 0;
 		}
 
-		if (flag == 1){
+		if (flag == 1) {
 			match = true;
 		}
-			
-		else{
+
+		else {
 			match = false;
 		}
-			
 
 		return match;
 	}
 
-	@Override
 	public float greatest(float[][] m) {
+		float mayor = 0;
 
-		return 0;
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[0].length; j++) {
+				if (m[i][j] > mayor) {
+					mayor = m[i][j];
+				}
+			}
+		}
+		return mayor;
 	}
 
-	@Override
-	public float greatest(float[] v) {
-
-		return 0;
+	public float greatest(float[] x) {
+		float mayor = 0;
+		for (int i = 0; i < x.length; i++) {
+			if (x[i] > mayor) {
+				mayor = x[i];
+			}
+		}
+		return mayor;
 	}
-
-	public void imprimeMatrix(float m[][]) {
+	
+	public void printServer(float m[][]) {
 		for (int i = 0; i < m.length; i++) {
 			for (int j = 0; j < m[0].length; j++) {
 				if (m[i][j] != 0) {
@@ -95,7 +94,7 @@ public class operacionesServer implements Imatrix {
 		}
 	}
 
-	public void imprimeVector(float[] vresultado) {
+	public void printServer(float[] vresultado) {
 		for (int i = 0; i < vresultado.length; i++) {
 			if (vresultado[i] != 0) {
 				System.out.print(" " + vresultado[i] + ", ");

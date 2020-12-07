@@ -36,22 +36,19 @@ public class cliente {
 							form.DatosIgualdad();
 							break;
 						case 4:
-
+							form.DatosMayor();
 							break;
+						case 5:
+							System.out.println("gracias por utilizar nuestra calculadroa, vuelve pronto");
+							s.is.readInt();
+							System.exit(-1);
 						default:
 							System.out.println("Opcion invalida");
+							s.is.readInt();
 							break;
 					}
 
-					/*
-					 * int userInput; int size = 0;
-					 * System.out.println("\n  \nEscribe el tamaño del vector"); size =
-					 * stdIn.nextInt(); os.writeInt(size); System.out.println("ingresa los " + size
-					 * + " valores"); for (int i = 0; i < size; i++) {
-					 * System.out.println("ingresa el valor " + i); userInput = stdIn.nextInt();
-					 * os.writeInt(userInput); } System.out.println("el numero mas grande es " +
-					 * is.readInt());
-					 */
+				
 					s.os.close();
 					s.is.close();
 					s.echoSocket.close();
@@ -71,8 +68,8 @@ public class cliente {
 		Scanner reader = new Scanner(System.in);
 		System.out.println("1.- Multiplicación");
 		System.out.println("2.- Suma de matrices");
-		System.out.println("3.- Suma de los numero impares");
-		System.out.println("4.- Mostrar el numero mas grande");
+		System.out.println("3.- Igualdad de Matrices");
+		System.out.println("4.- Valor mas alto");
 		System.out.println("5.- Salir del Programa");
 		return reader.nextInt();
 	}

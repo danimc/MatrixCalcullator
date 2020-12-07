@@ -42,6 +42,7 @@ public class impresionesCliente implements IprintMatrix {
             int a = in.readInt();
             int b = in.readInt();
             float value;
+            System.out.println("breakpoint");
             System.out.println("tamaño de la matriz resultante = [" + a + "][" + b + "]");
             m = new float[a][b];
 
@@ -55,7 +56,7 @@ public class impresionesCliente implements IprintMatrix {
             print(m);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("no se recibieron valores");
         } catch (IndexOutOfBoundsException e) {
             System.err.println("Error en el tamaño de los datos recibidos");
         }

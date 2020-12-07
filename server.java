@@ -49,23 +49,18 @@ class server {
                 case 3:
                     igualdad();
                     break;
+                case 4:
+                    mayor();
+                    break;
+                case 5:
+                    System.out.println("cliente se desconecto");
+                    break;
+                default:
+                    System.out.println("Opcion del cliente invalida");
+                    break;
+
             }
 
-            /*
-             * int size = 0; int n; size = in.readInt(); int vector[] = new int[size];
-             * System.out.println("esperando " + size + " valores");
-             * 
-             * for (int i = 0; i < size; i++) { n = in.readInt(); if (n != -1) { vector[i] =
-             * n; System.out.println("valor " + i + ": " + n); } else {
-             * System.out.println("ERROR EN EL CLIENTE"); }
-             * 
-             * }
-             * 
-             * message = op.greatest(vector);
-             * 
-             * System.out.println("+ writing to socket"); System.out.println("=> " +
-             * message);
-             */
             out.flush();
             out.writeInt(message);
             out.writeByte('\n');
@@ -75,11 +70,65 @@ class server {
             System.exit(-1);
         } catch (InputMismatchException e) {
             System.out.println("Error: no es un numero");
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
         }
     }
 
+    private void mayor() throws Exception {
+        boolean repetir = true;
+        do {
+            try {
+                out.writeUTF("> Desea verificar \n 1.- una matriz \n 2.- un vector");
+                out.flush();
+                resp = in.readInt();
+                if (resp == 1 || resp == 2) {
+                    repetir = false;
+                    System.out.println("> opcion CORRECTA");
+                    out.writeUTF("> opcion CORRECTA");
+                    out.flush();
+                    out.writeInt(1);
+                    out.flush();
+
+                } else {
+                    System.out.println("> opcion incorrecta");
+                    out.writeUTF("> opcion incorrecta");
+                    out.flush();
+                    out.writeInt(0);
+                    out.flush();
+                }
+
+            } catch (InputMismatchException e) {
+                System.err.println("Intente de nuevo");
+            }
+        } while (repetir);
+
+        System.out.println("USUARIO SELECCIONO: " + resp);
+        out.writeUTF("> selecciono la opcion " + resp);
+        out.flush();
+        out.writeInt(resp);
+        out.flush();
+
+        float big = 0;
+        if (resp == 1) {
+            definir_TamMatrix();
+            ingresaDatos(matrixA);
+            op.printServer(matrixA);
+            big = op.greatest(matrixA);
+        }
+        if (resp == 2) {
+            definir_TamVector();
+            ingresaDatos(vecto1);
+            big = op.greatest(vecto1);
+        }
+
+        out.writeFloat(big);
+
+    }
+
     private void igualdad() {
-        try{
+        try {
 
             boolean respuesta;
             definir_TamMatrix();
@@ -91,17 +140,17 @@ class server {
             System.out.println("\n realizando comparacion...");
             System.out.println("\nson iguales: " + respuesta);
             out.writeUTF("> son iguales: " + respuesta);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Problema de coneccion");
         }
-        
+
     }
 
     public void datosMatrix() {
         try {
             definir_TamMatrix();
             ingresaDatos(matrixA);
-            op.imprimeMatrix(matrixA);
+            op.printServer(matrixA);
             boolean repetir = true;
             do {
                 try {
@@ -141,7 +190,7 @@ class server {
                     definir_TamMatrix(renglones);
                     Mresultado = new float[matrixA.length][matrixB[0].length];
                     ingresaDatos(matrixB);
-                    op.imprimeMatrix(matrixB);
+                    op.printServer(matrixB);
 
                     System.out.println("\n\n > MATRIZ 'R' DE TAMAÑO [" + matrixA.length + "][" + matrixB[0].length + "]");
                     out.writeInt(matrixA.length);
@@ -158,10 +207,10 @@ class server {
             if (resp == 2) {
                 definir_TamVector(renglones);
                 Vresultado = new float[renglones];
-                out.writeInt(renglones);
                 ingresaDatos(vecto1);
+                out.writeInt(renglones);
                 op.multiply(matrixA, vecto1, Vresultado);
-                op.imprimeVector(Vresultado);
+                op.printServer(Vresultado);
                 System.out.println("\n ENVIANDO RESULTADO:");
                 enviarResult(Vresultado);
 
@@ -193,6 +242,16 @@ class server {
             throw new Exception("Los tamaños no son compatibles");
         }
 
+    }
+
+    private void definir_TamVector() throws Exception {
+        int a = in.readInt();
+        System.out.println("Tamaño del Vector " + a);
+
+        vecto1 = new float[a];
+        System.out.println("\n\n >VECTOR DE TAMAÑO [" + a + "]");
+        out.writeUTF("\n > SERVIDOR DICE: \n > VECTOR DE TAMAÑO [" + a + "]");
+        out.flush();
     }
 
     private void ingresaDatos(float[][] matriz) {
@@ -297,19 +356,19 @@ class server {
             matrixB = new float[matrixA.length][matrixA[0].length];
             Mresultado = new float[matrixA.length][matrixA[0].length];
             ingresaDatos(matrixA);
-            op.imprimeMatrix(matrixA);
+            op.printServer(matrixA);
             System.out.println("valores de la segunda matrix");
             ingresaDatos(matrixB);
-            op.imprimeMatrix(matrixB);
+            op.printServer(matrixB);
+            out.writeInt(matrixA.length);
+            out.writeInt(matrixA[0].length);
             op.addition(matrixA, matrixB, Mresultado);
             System.out.println("resultado de la suma");
-            op.imprimeMatrix(Mresultado);
-            out.writeInt(matrixA.length);
-            out.writeInt(matrixB[0].length);
+            op.printServer(Mresultado);
 
             enviarResult(Mresultado);
         } catch (IOException e) {
-            
+
             e.printStackTrace();
         }
 
