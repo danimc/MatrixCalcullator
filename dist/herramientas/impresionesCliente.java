@@ -37,8 +37,9 @@ public class impresionesCliente implements IprintMatrix {
         }
     }
 
-    public void tamMatrixResult(float[][] m) {
-        try {
+    public void tamMatrixResult(float[][] m) throws IOException {
+   
+            System.out.println("Obteniendo valores del servidor");
             int a = in.readInt();
             int b = in.readInt();
             float value;
@@ -54,12 +55,6 @@ public class impresionesCliente implements IprintMatrix {
             }
 
             print(m);
-
-        } catch (IOException e) {
-            System.err.println("no se recibieron valores");
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("Error en el tamaño de los datos recibidos");
-        }
     }
 
     public void tamVectorResult(float[] v) {
