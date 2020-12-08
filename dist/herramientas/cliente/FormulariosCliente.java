@@ -1,4 +1,4 @@
-package dist.herramientas;
+package dist.herramientas.cliente;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,8 +10,6 @@ import dist.socketCliente;
 public class FormulariosCliente {
     static Scanner reader = new Scanner(System.in);
     impresionesCliente p = new impresionesCliente();
-    DataOutputStream out = socketCliente.salida;
-    DataInputStream in = socketCliente.entrada;
     float[][] matrixA;
     float[][] matrixB;
     float[][] mresult;
@@ -26,11 +24,11 @@ public class FormulariosCliente {
             boolean bucle = true;
             do {
                 try {
-                    System.out.println(in.readUTF());
+                    System.out.println(socketCliente.is.readUTF());
                     respuesta = reader.nextInt();
-                    out.writeInt(respuesta);
-                    System.out.println(in.readUTF());
-                    srvResp = in.readInt();
+                   socketCliente.os.writeInt(respuesta);
+                    System.out.println(socketCliente.is.readUTF());
+                    srvResp =socketCliente.is.readInt();
                     if (srvResp == 1) {
                         bucle = false;
                     }
@@ -40,8 +38,8 @@ public class FormulariosCliente {
                 }
             } while (bucle); // FIN DEL BUCLE PARA SELECCIONAR MATRIZ O VECTOR
 
-            System.out.println(in.readUTF());
-            srvResp = in.readInt();
+            System.out.println(socketCliente.is.readUTF());
+            srvResp =socketCliente.is.readInt();
             if (srvResp == 1) { // MULT POR MATRIZ
                 mandarTamMatrix("B");
                 System.out.println("\n \n PROCESANDO, POR FAVOR ESPERE... \n\n");
@@ -84,7 +82,7 @@ public class FormulariosCliente {
             System.out.println("segunda Matriz");
             mandarTamMatrix("B");
             System.out.println("\nesperando respuesta \n Servidor dice: ");
-            System.out.println(in.readUTF());
+            System.out.println(socketCliente.is.readUTF());
 
         } catch (Exception e) {
             System.err.println("problema desconocido");
@@ -96,11 +94,11 @@ public class FormulariosCliente {
         int respuesta, srvResp;
         do {
             try {
-                System.out.println(in.readUTF());
+                System.out.println(socketCliente.is.readUTF());
                 respuesta = reader.nextInt();
-                out.writeInt(respuesta);
-                System.out.println(in.readUTF());
-                srvResp = in.readInt();
+               socketCliente.os.writeInt(respuesta);
+                System.out.println(socketCliente.is.readUTF());
+                srvResp =socketCliente.is.readInt();
                 if (srvResp == 1) {
                     bucle = false;
                 }
@@ -109,8 +107,8 @@ public class FormulariosCliente {
                 System.err.println("o");
             }
         } while (bucle);
-        System.out.println(in.readUTF());
-        srvResp = in.readInt();
+        System.out.println(socketCliente.is.readUTF());
+        srvResp =socketCliente.is.readInt();
         System.out.println("opcion seleccionada: " + srvResp);
         
         if(srvResp == 1){
@@ -120,7 +118,7 @@ public class FormulariosCliente {
             mandarTamVector();     
         }
         System.out.println("\n \n ESPERANDO RESPUESTA DEL SERVIDOR");
-        System.out.println("\n > El numero mayor es: " + in.readFloat() );
+        System.out.println("\n > El numero mayor es: " +socketCliente.is.readFloat() );
 
     }
 
@@ -128,8 +126,8 @@ public class FormulariosCliente {
         int a;
         System.out.println("INGRESA EL TAMAÑO DEL VECTOR");
         a = reader.nextInt();
-        out.writeInt(a);
-        System.out.println(in.readUTF());
+       socketCliente.os.writeInt(a);
+        System.out.println(socketCliente.is.readUTF());
         System.out.println("\n");
 
         // suponeindo que todo salga bien
@@ -140,11 +138,11 @@ public class FormulariosCliente {
 
         System.out.println("INGRESA LOS RENGLONES DE LA MATRIZ '" + nombre + "'");
         a = reader.nextInt();
-        out.writeInt(a);
+       socketCliente.os.writeInt(a);
         System.out.println("INGRESA LAS COLUMNAS DE LA MATRIZ '" + nombre + "'");
         b = reader.nextInt();
-        out.writeInt(b);
-        System.out.println(in.readUTF());
+       socketCliente.os.writeInt(b);
+        System.out.println(socketCliente.is.readUTF());
         System.out.println("\n");
 
         mandarValoresMatrix(a, b);
@@ -157,7 +155,7 @@ public class FormulariosCliente {
                 try {
                     System.out.println("ingresa el valor " + i);
                     userInput = reader.nextFloat();
-                    out.writeFloat(userInput);
+                   socketCliente.os.writeFloat(userInput);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -174,7 +172,7 @@ public class FormulariosCliente {
         for (int i = 0; i < v; i++) {
             System.out.println("ingresa el valor " + i);
             userInput = reader.nextFloat();
-            out.writeFloat(userInput);
+           socketCliente.os.writeFloat(userInput);
         }
     }
 

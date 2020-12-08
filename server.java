@@ -50,6 +50,8 @@ class server {
                     break;
             }
 
+           
+
             SocketServer.out.flush();
             SocketServer.out.writeInt(message);
             SocketServer.out.writeByte('\n');

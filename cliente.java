@@ -3,27 +3,25 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import dist.socketCliente;
-import dist.herramientas.FormulariosCliente;
+import dist.herramientas.cliente.FormulariosCliente;
 
 public class cliente {
-	Scanner stdIn = new Scanner(System.in);	
-	// FormulariosCliente form = new FormulariosCliente();
-	
+	Scanner stdIn = new Scanner(System.in);		
  
 	public static void main(String[] args) {
 		int opcion;
 		System.out.println("BIENVENIDO AL CLIENTE DE LA CALCULADORA CON MATRICES Y VECTORES ");
 		do {
-			socketCliente s = new socketCliente();
-			s.conexionClient();
+			socketCliente.conexionClient();
+
 			FormulariosCliente form = new FormulariosCliente();
 
-			if (s.echoSocket != null && s.os != null && s.is != null) {
+			if (socketCliente.echoSocket != null && socketCliente.os != null && socketCliente.is != null) {
 				try {
 
 					System.out.println("POR FAVOR SELECCIONA UNA OPCION DEL SIGUENTE MENÚ");
 					opcion = mostrarMenu();
-					s.os.writeInt(opcion);
+					socketCliente.os.writeInt(opcion);
 
 					switch (opcion) {
 						case 1:
@@ -40,18 +38,18 @@ public class cliente {
 							break;
 						case 5:
 							System.out.println("gracias por utilizar nuestra calculadroa, vuelve pronto");
-							s.is.readInt();
+							socketCliente.is.readInt();
 							System.exit(-1);
 						default:
 							System.out.println("Opcion invalida");
-							s.is.readInt();
+							socketCliente.is.readInt();
 							break;
 					}
 
 				
-					s.os.close();
-					s.is.close();
-					s.echoSocket.close();
+					socketCliente.os.close();
+					socketCliente.is.close();
+					socketCliente.echoSocket.close();
 				} catch (InputMismatchException e) {
 					System.err.println("Atención, debe ingresar un numero:");
 					System.out.println("reiniciando aplicacion, por favor espere...");

@@ -1,13 +1,11 @@
-package dist.herramientas;
+package dist.herramientas.cliente;
 
 import dist.interfaces.IprintMatrix;
-import java.io.DataInputStream;
 import java.io.IOException;
 import dist.socketCliente;
 
 public class impresionesCliente implements IprintMatrix {
 
-    static DataInputStream in = socketCliente.entrada;
     float[][] mResult;
 
     public void print(float[] v) {
@@ -38,34 +36,34 @@ public class impresionesCliente implements IprintMatrix {
     }
 
     public void tamMatrixResult(float[][] m) throws IOException {
-   
-            System.out.println("Obteniendo valores del servidor");
-            int a = in.readInt();
-            int b = in.readInt();
-            float value;
-            System.out.println("breakpoint");
-            System.out.println("tamaño de la matriz resultante = [" + a + "][" + b + "]");
-            m = new float[a][b];
 
-            for (int i = 0; i < m.length; i++) {
-                for (int j = 0; j < m[0].length; j++) {
-                    value = in.readFloat();
-                    m[i][j] = value;
-                }
+        System.out.println("Obteniendo valores del servidor");
+        int a = socketCliente.is.readInt();
+        int b = socketCliente.is.readInt();
+        float value;
+        System.out.println("breakpoint");
+        System.out.println("tamaño de la matriz resultante = [" + a + "][" + b + "]");
+        m = new float[a][b];
+
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m[0].length; j++) {
+                value = socketCliente.is.readFloat();
+                m[i][j] = value;
             }
+        }
 
-            print(m);
+        print(m);
     }
 
     public void tamVectorResult(float[] v) {
         try {
-            int a = in.readInt();
+            int a = socketCliente.is.readInt();
             float value;
             System.out.println("tamaño dela vector resultante = [" + a + "]");
             v = new float[a];
 
             for (int i = 0; i < v.length; i++) {
-                value = in.readFloat();
+                value = socketCliente.is.readFloat();
                 v[i] = value;
             }
 
