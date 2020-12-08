@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import dist.socketCliente;
+import dist.herramientas.cliente.socketCliente;
 import dist.herramientas.cliente.FormulariosCliente;
 
 public class cliente {
@@ -51,8 +51,8 @@ public class cliente {
 					socketCliente.is.close();
 					socketCliente.echoSocket.close();
 				} catch (InputMismatchException e) {
-					System.err.println("Atención, debe ingresar un numero:");
-					System.out.println("reiniciando aplicacion, por favor espere...");
+					System.err.println("\nAtención, debe ingresar un numero:\n");
+					
 				} catch (IOException e) {
 					System.err.println("Fallo la conexion con el servidor");
 				}
@@ -69,7 +69,8 @@ public class cliente {
 		System.out.println("3.- Igualdad de Matrices");
 		System.out.println("4.- Valor mas alto");
 		System.out.println("5.- Salir del Programa");
-		return reader.nextInt();
+		
+		return reader.nextInt();		
 	}
 
 }

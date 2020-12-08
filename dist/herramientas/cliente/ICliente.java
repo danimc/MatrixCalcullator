@@ -1,10 +1,9 @@
 package dist.herramientas.cliente;
 
-import dist.interfaces.IprintMatrix;
 import java.io.IOException;
-import dist.socketCliente;
+import dist.interfaces.IprintMatrix;
 
-public class impresionesCliente implements IprintMatrix {
+public class ICliente implements IprintMatrix {
 
     float[][] mResult;
 
