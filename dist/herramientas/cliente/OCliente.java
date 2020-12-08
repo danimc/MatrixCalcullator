@@ -11,15 +11,17 @@ public class OCliente {
     static int b = 0;
 
     public static void mandarTamVector() throws IOException {
-        int a;
+        int a = 0;
+
         System.out.println("INGRESA EL TAMAÑO DEL VECTOR");
         a = reader.nextInt();
         socketCliente.os.writeInt(a);
         System.out.println(socketCliente.is.readUTF());
         System.out.println("\n");
+        mandarValoresVector(a);
 
         // suponeindo que todo salga bien
-        mandarValoresVector(a);
+
     }
 
     public static void mandarTamMatrix(String nombre) throws IOException {
@@ -36,32 +38,50 @@ public class OCliente {
         mandarValoresMatrix(a, b);
     }
 
-    public static void mandarValoresMatrix(int a, int b) {
-        float userInput;
+    public static void mandarValoresMatrix(int a, int b) throws IOException {
+        float userInput = 0;
+
         for (int i = 0; i < a; i++) {
             for (int k = 0; k < b; k++) {
-                try {
-                    System.out.println("ingresa el valor " + i);
-                    userInput = reader.nextFloat();
-                    socketCliente.os.writeFloat(userInput);
+                boolean bucle = true;
+                do {
+                    try {
+                        Scanner ready = new Scanner(System.in);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InputMismatchException e) {
-                    System.out.println("no es un numero valido");
-                }
+                        System.out.println("ingresa el valor [" + i + "][" + k + "]");
+                        userInput = ready.nextFloat();
 
+                        bucle = false;
+                    } catch (InputMismatchException e) {
+                        System.out.println("no es un numero valido");
+                        bucle = true;
+                    }
+                } while (bucle == true);
+                socketCliente.os.writeFloat(userInput);
             }
         }
+
     }
 
     private static void mandarValoresVector(int v) throws IOException {
-        float userInput;
+        float userInput = 0;
+
         for (int i = 0; i < v; i++) {
-            System.out.println("ingresa el valor " + i);
-            userInput = reader.nextFloat();
-           socketCliente.os.writeFloat(userInput);
+            boolean bucle = true;
+            do {
+                try {
+                    Scanner ready = new Scanner(System.in);
+                    System.out.println("ingresa el valor " + i);
+                    userInput = ready.nextFloat();
+                    bucle = false;
+
+                } catch (InputMismatchException e) {
+                    System.out.println("no es un numero valido");
+                    bucle = true;
+                }
+            } while (bucle);
+            socketCliente.os.writeFloat(userInput);
         }
     }
-    
+
 }

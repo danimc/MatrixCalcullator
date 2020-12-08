@@ -13,13 +13,12 @@ public class cliente {
 		System.out.println("BIENVENIDO AL CLIENTE DE LA CALCULADORA CON MATRICES Y VECTORES ");
 		do {
 			socketCliente.conexionClient();
-
 			FormulariosCliente form = new FormulariosCliente();
 
 			if (socketCliente.echoSocket != null && socketCliente.os != null && socketCliente.is != null) {
 				try {
 
-					System.out.println("POR FAVOR SELECCIONA UNA OPCION DEL SIGUENTE MENÚ");
+					System.out.println("\n\n POR FAVOR SELECCIONA UNA OPCION DEL SIGUENTE MENÚ");
 					opcion = mostrarMenu();
 					socketCliente.os.writeInt(opcion);
 

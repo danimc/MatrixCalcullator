@@ -13,7 +13,7 @@ public class FormulariosCliente {
     float[] vResult;
     int a, b;
 
-    public void DatosMultMatrix() {
+    public void DatosMultMatrix() throws IOException {
         int respuesta = 0, srvResp;
 
         try {
@@ -54,6 +54,9 @@ public class FormulariosCliente {
 
         } catch (IOException e) {
             System.err.println("comunicacion interrumpida con el servidor");
+        } catch (InputMismatchException e ){
+            System.err.println("Error desde Formularios");
+            socketCliente.os.writeInt(-1);
         }
     }
 

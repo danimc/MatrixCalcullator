@@ -20,7 +20,6 @@ public class FormulariosServer {
         boolean repetir = true;
         do {
             try {
-                op.printServer(matrixA);
                 SocketServer.out.writeUTF("> Desea verificar \n 1.- una matriz \n 2.- un vector");
                 SocketServer.out.flush();
                 resp = SocketServer.in.readInt();

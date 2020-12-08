@@ -1,6 +1,7 @@
 package dist.herramientas.server;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 
 public class Definiciones {
 
@@ -19,9 +20,8 @@ public class Definiciones {
             SocketServer.out.flush();
 
         } catch (IOException e) {
-
-        }
-
+            System.err.println("no se recibieron datos " + e);
+        } 
     }
 
     public static void definir_TamMatrixI() {
@@ -36,7 +36,9 @@ public class Definiciones {
             FormulariosServer.renglones = b;
             SocketServer.out.flush();
         } catch (IOException e) {
-
+            System.err.println("no se recibieron datos " + e);
+        } catch (InputMismatchException e ){
+            System.err.println("DEBE INGRESAR UN VALOR VALIDO");
         }
     }
 
